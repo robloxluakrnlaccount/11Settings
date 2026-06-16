@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings</title>
+<style>
+@font-face {
+  font-family: 'Segoe Fluent Icons';
+  src: url('https://raw.githubusercontent.com/Smart-Space/TinUI/main/Segoe%20Fluent%20Icons.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Segoe UI VF';
+  src: url('https://raw.githubusercontent.com/robloxluakrnlaccount/Windows11/main/SegoeUIVF.ttf') format('truetype');
+  font-weight: 100 900;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  width: 100%; height: 100%;
+  font-family: 'Segoe UI VF', system-ui, sans-serif;
+  background: #f3f3f3;
+  color: #1a1a1a;
+  overflow: hidden;
+}
+
+.layout {
+  display: flex;
+  height: 100%;
+}
+
+/* ── Sidebar ── */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: #ebebeb;
+  border-right: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 16px 0 8px;
+}
+.sidebar-header {
+  font-size: 22px;
+  font-weight: 600;
+  padding: 0 16px 16px;
+  color: #1a1a1a;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin: 0 6px 1px;
+  font-size: 13px;
+  color: #222;
+  transition: background 0.1s;
+  user-select: none;
+}
+.nav-item:hover { background: rgba(0,0,0,0.06); }
+.nav-item.active { background: rgba(0,0,0,0.09); font-weight: 600; }
+.nav-icon {
+  font-family: 'Segoe Fluent Icons', sans-serif;
+  font-size: 16px;
+  color: #444;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+/* ── Content ── */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px;
+}
+.content::-webkit-scrollbar { width: 6px; }
+.content::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 3px; }
+
+.page { display: none; }
+.page.active { display: block; }
+
+.page-title {
+  font-size: 26px;
+  font-weight: 300;
+  margin-bottom: 24px;
+  color: #111;
+}
+
+/* ── Setting group ── */
+.group {
+  margin-bottom: 24px;
+}
+.group-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #666;
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+.card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #efefef;
+  min-height: 56px;
+}
+.row:last-child { border-bottom: none; }
+.row-ico {
+  font-family: 'Segoe Fluent Icons', sans-serif;
+  font-size: 18px;
+  color: #0078d4;
+  flex-shrink: 0;
+  width: 24px;
+  text-align: center;
+}
+.row-info { flex: 1; }
+.row-label { font-size: 13px; color: #111; font-weight: 500; }
+.row-desc  { font-size: 11.5px; color: #666; margin-top: 2px; }
+
+/* ── Toggle ── */
+.toggle {
+  width: 44px; height: 24px; border-radius: 12px;
+  background: #c0c0c0; position: relative;
+  cursor: pointer; flex-shrink: 0; transition: background 0.2s; border: none;
+  outline: none;
+}
+.toggle::after {
+  content: ''; position: absolute;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; top: 3px; left: 3px;
+  transition: transform 0.2s cubic-bezier(0.2,0,0,1);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.toggle.on { background: #0078d4; }
+.toggle.on::after { transform: translateX(20px); }
+
+/* ── Slider ── */
+.slider-wrap { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.slider-val { font-size: 12px; color: #555; width: 34px; text-align: right; flex-shrink: 0; }
+input[type=range] {
+  -webkit-appearance: none; appearance: none;
+  width: 130px; height: 4px; border-radius: 2px;
+  background: #c8c8c8; outline: none; cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: #0078d4; cursor: pointer;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3px #0078d4;
+}
+
+/* ── Text input ── */
+.text-input {
+  border: 1px solid #c8c8c8; border-radius: 6px;
+  padding: 7px 10px; font-size: 12.5px;
+  font-family: 'Segoe UI VF', system-ui, sans-serif;
+  color: #111; outline: none; width: 240px; flex-shrink: 0;
+  transition: border-color 0.1s;
+}
+.text-input:focus { border-color: #0078d4; box-shadow: 0 0 0 2px rgba(0,120,212,0.15); }
+
+/* ── Button ── */
+.btn {
+  padding: 6px 18px; border-radius: 4px;
+  font-size: 12.5px; font-family: 'Segoe UI VF', system-ui, sans-serif;
+  border: 1px solid #c8c8c8; background: #fff; color: #111;
+  cursor: pointer; transition: background 0.1s; flex-shrink: 0;
+}
+.btn:hover { background: #f0f0f0; }
+.btn.primary { background: #0078d4; color: #fff; border-color: #0078d4; }
+.btn.primary:hover { background: #106ebe; }
+
+/* ── Color swatches ── */
+.swatch-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.swatch {
+  width: 32px; height: 32px; border-radius: 50%;
+  cursor: pointer; border: 2px solid transparent;
+  transition: border-color 0.1s, transform 0.1s;
+  flex-shrink: 0;
+}
+.swatch:hover { transform: scale(1.1); }
+.swatch.selected { border-color: #0078d4; }
+
+/* ── Background preview ── */
+.bg-preview {
+  width: 100%; height: 100px; border-radius: 6px;
+  background: center/cover no-repeat #2a2a3a;
+  margin-bottom: 10px; border: 1px solid #e0e0e0;
+}
+
+/* ── Status bar ── */
+#status-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 28px; background: #0078d4;
+  display: flex; align-items: center; padding: 0 16px;
+  font-size: 11.5px; color: rgba(255,255,255,0.9);
+  transform: translateY(100%); transition: transform 0.2s;
+}
+#status-bar.show { transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-header">Settings</div>
+    <div class="nav-item active" data-page="personalisation">
+      <span class="nav-icon">&#xE771;</span> Personalisation
+    </div>
+    <div class="nav-item" data-page="taskbar">
+      <span class="nav-icon">&#xE7FC;</span> Taskbar
+    </div>
+    <div class="nav-item" data-page="clock">
+      <span class="nav-icon">&#xE916;</span> Clock
+    </div>
+    <div class="nav-item" data-page="system">
+      <span class="nav-icon">&#xE770;</span> System
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <main class="content">
+
+    <!-- Personalisation -->
+    <div class="page active" id="page-personalisation">
+      <div class="page-title">Personalisation</div>
+
+      <div class="group">
+        <div class="group-title">Background</div>
+        <div class="card">
+          <div class="row" style="flex-direction:column; align-items:flex-start; gap:10px;">
+            <div class="bg-preview" id="bg-preview"></div>
+            <div style="display:flex;gap:8px;align-items:center;width:100%;">
+              <input class="text-input" id="bg-url" type="text" placeholder="Paste image URL…" style="flex:1;width:auto;">
+              <button class="btn primary" id="bg-apply">Apply</button>
+            </div>
+          </div>
+          <div class="row">
+            <span class="row-ico">&#xE91B;</span>
+            <div class="row-info">
+              <div class="row-label">Solid colour fallback</div>
+              <div class="row-desc">Used when image URL is empty or fails to load</div>
+            </div>
+            <button class="btn" id="bg-clear">Clear image</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-title">Accent colour</div>
+        <div class="card">
+          <div class="row">
+            <span class="row-ico">&#xE790;</span>
+            <div class="row-info">
+              <div class="row-label">Taskbar accent</div>
+              <div class="row-desc">Base colour mixed into the taskbar glass</div>
+            </div>
+            <div class="swatch-row" id="accent-swatches"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Taskbar -->
+    <div class="page" id="page-taskbar">
+      <div class="page-title">Taskbar</div>
+
+      <div class="group">
+        <div class="group-title">Appearance</div>
+        <div class="card">
+          <div class="row">
+            <span class="row-ico">&#xE81E;</span>
+            <div class="row-info">
+              <div class="row-label">Transparency</div>
+              <div class="row-desc">Opacity of the taskbar background</div>
+            </div>
+            <div class="slider-wrap">
+              <input type="range" id="tb-opacity" min="10" max="100" value="72">
+              <span class="slider-val" id="tb-opacity-val">72%</span>
+            </div>
+          </div>
+          <div class="row">
+            <span class="row-ico">&#xE81E;</span>
+            <div class="row-info">
+              <div class="row-label">Blur</div>
+              <div class="row-desc">Backdrop blur strength behind the taskbar</div>
+            </div>
+            <div class="slider-wrap">
+              <input type="range" id="tb-blur" min="0" max="80" value="40">
+              <span class="slider-val" id="tb-blur-val">40px</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="group-title">Behaviour</div>
+        <div class="card">
+          <div class="row">
+            <span class="row-ico">&#xE7C9;</span>
+            <div class="row-info">
+              <div class="row-label">Snap flyout</div>
+              <div class="row-desc">Show snap layout options when hovering the maximise button</div>
+            </div>
+            <button class="toggle on" id="tog-snap"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clock -->
+    <div class="page" id="page-clock">
+      <div class="page-title">Clock</div>
+      <div class="group">
+        <div class="group-title">Display</div>
+        <div class="card">
+          <div class="row">
+            <span class="row-ico">&#xE916;</span>
+            <div class="row-info">
+              <div class="row-label">Show seconds</div>
+              <div class="row-desc">Display seconds in the taskbar clock</div>
+            </div>
+            <button class="toggle" id="tog-seconds"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System -->
+    <div class="page" id="page-system">
+      <div class="page-title">System</div>
+      <div class="group">
+        <div class="group-title">Performance</div>
+        <div class="card">
+          <div class="row">
+            <span class="row-ico">&#xE945;</span>
+            <div class="row-info">
+              <div class="row-label">Animations</div>
+              <div class="row-desc">Window open, close, minimise and snap animations</div>
+            </div>
+            <button class="toggle on" id="tog-animations"></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div id="status-bar">Settings applied</div>
+
+<script>
+// ── Accent colours ──
+const ACCENTS = [
+  { label: 'Default dark',  rgb: '20,20,30'  },
+  { label: 'Midnight blue', rgb: '12,18,36'  },
+  { label: 'Deep purple',   rgb: '28,12,40'  },
+  { label: 'Charcoal',      rgb: '28,28,28'  },
+  { label: 'Forest',        rgb: '10,26,18'  },
+  { label: 'Rust',          rgb: '36,16,10'  },
+  { label: 'Rose',          rgb: '36,12,20'  },
+  { label: 'Slate blue',    rgb: '16,22,40'  },
+];
+
+// Approximate visible colour from the rgb tuple (not the glass colour, the tint)
+const SWATCH_COLOURS = [
+  '#141418','#0c1224','#1c0c28','#1c1c1c','#0a1a12','#241008','#240c14','#101628'
+];
+
+let currentAccentRgb = '20,20,30';
+let selectedSwatch = 0;
+
+function buildSwatches() {
+  const wrap = document.getElementById('accent-swatches');
+  wrap.innerHTML = '';
+  ACCENTS.forEach((a, i) => {
+    const s = document.createElement('div');
+    s.className = 'swatch' + (i === selectedSwatch ? ' selected' : '');
+    s.style.background = SWATCH_COLOURS[i];
+    s.title = a.label;
+    s.addEventListener('click', () => {
+      document.querySelectorAll('.swatch').forEach(x => x.classList.remove('selected'));
+      s.classList.add('selected');
+      selectedSwatch = i;
+      currentAccentRgb = a.rgb;
+      send('set-accent', { rgb: a.rgb });
+      flash();
+    });
+    wrap.appendChild(s);
+  });
+}
+buildSwatches();
+
+// ── postMessage bridge ──
+function send(type, payload) {
+  window.parent.postMessage({ source: '11settings', type, payload }, '*');
+}
+
+function flash() {
+  const bar = document.getElementById('status-bar');
+  bar.classList.add('show');
+  clearTimeout(bar._t);
+  bar._t = setTimeout(() => bar.classList.remove('show'), 1800);
+}
+
+// ── Nav ──
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(x => x.classList.remove('active'));
+    item.classList.add('active');
+    document.getElementById('page-' + item.dataset.page).classList.add('active');
+  });
+});
+
+// ── Background ──
+const bgPreview = document.getElementById('bg-preview');
+const bgUrlInput = document.getElementById('bg-url');
+
+document.getElementById('bg-apply').addEventListener('click', () => {
+  const url = bgUrlInput.value.trim();
+  if (!url) return;
+  bgPreview.style.backgroundImage = `url('${url}')`;
+  send('set-background', { url });
+  flash();
+});
+bgUrlInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('bg-apply').click();
+});
+document.getElementById('bg-clear').addEventListener('click', () => {
+  bgUrlInput.value = '';
+  bgPreview.style.backgroundImage = 'none';
+  send('set-background', { url: '' });
+  flash();
+});
+
+// ── Sliders ──
+const opSlider = document.getElementById('tb-opacity');
+const opVal    = document.getElementById('tb-opacity-val');
+opSlider.addEventListener('input', () => {
+  opVal.textContent = opSlider.value + '%';
+  send('set-taskbar-opacity', { value: parseInt(opSlider.value) });
+  flash();
+});
+
+const blurSlider = document.getElementById('tb-blur');
+const blurVal    = document.getElementById('tb-blur-val');
+blurSlider.addEventListener('input', () => {
+  blurVal.textContent = blurSlider.value + 'px';
+  send('set-taskbar-blur', { value: parseInt(blurSlider.value) });
+  flash();
+});
+
+// ── Toggles ──
+function wireToggle(id, msgType, payloadKey) {
+  const btn = document.getElementById(id);
+  btn.addEventListener('click', () => {
+    btn.classList.toggle('on');
+    const enabled = btn.classList.contains('on');
+    send(msgType, { [payloadKey]: enabled });
+    flash();
+  });
+}
+wireToggle('tog-snap',       'set-snap-flyout', 'enabled');
+wireToggle('tog-seconds',    'set-clock-seconds', 'enabled');
+wireToggle('tog-animations', 'set-animations', 'enabled');
+
+// ── Receive initial state from parent ──
+window.addEventListener('message', e => {
+  if (!e.data || e.data.source !== '11shell') return;
+  const s = e.data.settings;
+  if (!s) return;
+
+  // Background
+  if (s.bgUrl) {
+    bgUrlInput.value = s.bgUrl;
+    bgPreview.style.backgroundImage = `url('${s.bgUrl}')`;
+  }
+
+  // Sliders
+  opSlider.value = s.tbOpacity ?? 72;
+  opVal.textContent = opSlider.value + '%';
+  blurSlider.value = s.tbBlur ?? 40;
+  blurVal.textContent = blurSlider.value + 'px';
+
+  // Toggles
+  document.getElementById('tog-snap').classList.toggle('on', s.snapFlyout !== false);
+  document.getElementById('tog-seconds').classList.toggle('on', !!s.clockSeconds);
+  document.getElementById('tog-animations').classList.toggle('on', s.animations !== false);
+
+  // Accent — find matching swatch
+  if (s.tbAccentRgb) {
+    const idx = ACCENTS.findIndex(a => a.rgb === s.tbAccentRgb);
+    if (idx >= 0) {
+      selectedSwatch = idx;
+      currentAccentRgb = s.tbAccentRgb;
+      buildSwatches();
+    }
+  }
+});
+
+// Tell the parent we're ready so it sends current settings
+window.parent.postMessage({ source: '11settings', type: 'ready' }, '*');
+</script>
+</body>
+</html>

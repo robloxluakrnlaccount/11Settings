@@ -18,194 +18,216 @@
 html, body {
   width: 100%; height: 100%;
   font-family: 'Segoe UI VF', system-ui, sans-serif;
-  background: #f3f3f3;
-  color: #1a1a1a;
   overflow: hidden;
 }
 
-.layout {
-  display: flex;
-  height: 100%;
+/* ── Theme tokens — light default ── */
+:root {
+  --bg:        #f3f3f3;
+  --sidebar:   #ebebeb;
+  --border:    #ddd;
+  --card:      #fff;
+  --row-sep:   #efefef;
+  --text:      #1a1a1a;
+  --text-sec:  #666;
+  --text-nav:  #222;
+  --nav-hover: rgba(0,0,0,0.06);
+  --nav-act:   rgba(0,0,0,0.09);
+  --icon:      #444;
+  --thumb-bg:  #fff;
+  --input-bg:  #fff;
+  --input-bd:  #c8c8c8;
+  --btn-bg:    #fff;
+  --btn-bd:    #c8c8c8;
+  --btn-hover: #f0f0f0;
+  --slider-bg: #c8c8c8;
+  --tog-off:   #c0c0c0;
 }
+body.dark {
+  --bg:        #202020;
+  --sidebar:   #1a1a1a;
+  --border:    #333;
+  --card:      #2d2d2d;
+  --row-sep:   #383838;
+  --text:      #f0f0f0;
+  --text-sec:  #999;
+  --text-nav:  #e0e0e0;
+  --nav-hover: rgba(255,255,255,0.07);
+  --nav-act:   rgba(255,255,255,0.12);
+  --icon:      #bbb;
+  --thumb-bg:  #fff;
+  --input-bg:  #3a3a3a;
+  --input-bd:  #555;
+  --btn-bg:    #3a3a3a;
+  --btn-bd:    #555;
+  --btn-hover: #444;
+  --slider-bg: #555;
+  --tog-off:   #555;
+}
+
+body { background: var(--bg); color: var(--text); transition: background 0.2s, color 0.2s; }
+
+.layout { display: flex; height: 100%; }
 
 /* ── Sidebar ── */
 .sidebar {
-  width: 220px;
-  flex-shrink: 0;
-  background: #ebebeb;
-  border-right: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  padding: 16px 0 8px;
+  width: 220px; flex-shrink: 0;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  overflow-y: auto; padding: 16px 0 8px;
+  transition: background 0.2s, border-color 0.2s;
 }
 .sidebar-header {
-  font-size: 22px;
-  font-weight: 600;
-  padding: 0 16px 16px;
-  color: #1a1a1a;
+  font-size: 22px; font-weight: 600;
+  padding: 0 16px 16px; color: var(--text);
 }
 .nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 16px;
-  cursor: pointer;
-  border-radius: 6px;
-  margin: 0 6px 1px;
-  font-size: 13px;
-  color: #222;
-  transition: background 0.1s;
-  user-select: none;
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 16px; cursor: pointer; border-radius: 6px;
+  margin: 0 6px 1px; font-size: 13px; color: var(--text-nav);
+  transition: background 0.1s; user-select: none;
 }
-.nav-item:hover { background: rgba(0,0,0,0.06); }
-.nav-item.active { background: rgba(0,0,0,0.09); font-weight: 600; }
+.nav-item:hover { background: var(--nav-hover); }
+.nav-item.active { background: var(--nav-act); font-weight: 600; }
 .nav-icon {
   font-family: 'Segoe Fluent Icons', sans-serif;
-  font-size: 16px;
-  color: #444;
-  width: 20px;
-  text-align: center;
-  flex-shrink: 0;
+  font-size: 16px; color: var(--icon);
+  width: 20px; text-align: center; flex-shrink: 0;
 }
 
 /* ── Content ── */
-.content {
-  flex: 1;
-  overflow-y: auto;
-  padding: 28px 32px;
-}
+.content { flex: 1; overflow-y: auto; padding: 28px 32px; }
 .content::-webkit-scrollbar { width: 6px; }
-.content::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 3px; }
+.content::-webkit-scrollbar-thumb { background: rgba(128,128,128,0.3); border-radius: 3px; }
 
 .page { display: none; }
 .page.active { display: block; }
 
-.page-title {
-  font-size: 26px;
-  font-weight: 300;
-  margin-bottom: 24px;
-  color: #111;
-}
+.page-title { font-size: 26px; font-weight: 300; margin-bottom: 24px; color: var(--text); }
 
-/* ── Setting group ── */
-.group {
-  margin-bottom: 24px;
-}
+/* ── Group / card / row ── */
+.group { margin-bottom: 24px; }
 .group-title {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-  color: #666;
-  margin-bottom: 8px;
-  padding-left: 2px;
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--text-sec); margin-bottom: 8px; padding-left: 2px;
 }
 .card {
-  background: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; overflow: hidden;
+  transition: background 0.2s, border-color 0.2s;
 }
 .row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  border-bottom: 1px solid #efefef;
-  min-height: 56px;
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 16px; border-bottom: 1px solid var(--row-sep); min-height: 56px;
+  transition: border-color 0.2s;
 }
 .row:last-child { border-bottom: none; }
 .row-ico {
   font-family: 'Segoe Fluent Icons', sans-serif;
-  font-size: 18px;
-  color: #0078d4;
-  flex-shrink: 0;
-  width: 24px;
-  text-align: center;
+  font-size: 18px; color: #0078d4;
+  flex-shrink: 0; width: 24px; text-align: center;
 }
 .row-info { flex: 1; }
-.row-label { font-size: 13px; color: #111; font-weight: 500; }
-.row-desc  { font-size: 11.5px; color: #666; margin-top: 2px; }
+.row-label { font-size: 13px; color: var(--text); font-weight: 500; }
+.row-desc  { font-size: 11.5px; color: var(--text-sec); margin-top: 2px; }
 
 /* ── Toggle ── */
 .toggle {
   width: 44px; height: 24px; border-radius: 12px;
-  background: #c0c0c0; position: relative;
-  cursor: pointer; flex-shrink: 0; transition: background 0.2s; border: none;
-  outline: none;
+  background: var(--tog-off); position: relative;
+  cursor: pointer; flex-shrink: 0; transition: background 0.2s; border: none; outline: none;
 }
 .toggle::after {
   content: ''; position: absolute;
   width: 18px; height: 18px; border-radius: 50%;
-  background: #fff; top: 3px; left: 3px;
+  background: var(--thumb-bg); top: 3px; left: 3px;
   transition: transform 0.2s cubic-bezier(0.2,0,0,1);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
 }
 .toggle.on { background: #0078d4; }
 .toggle.on::after { transform: translateX(20px); }
 
 /* ── Slider ── */
 .slider-wrap { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-.slider-val { font-size: 12px; color: #555; width: 34px; text-align: right; flex-shrink: 0; }
+.slider-val { font-size: 12px; color: var(--text-sec); width: 38px; text-align: right; flex-shrink: 0; }
 input[type=range] {
   -webkit-appearance: none; appearance: none;
   width: 130px; height: 4px; border-radius: 2px;
-  background: #c8c8c8; outline: none; cursor: pointer;
+  background: var(--slider-bg); outline: none; cursor: pointer;
 }
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none; appearance: none;
   width: 16px; height: 16px; border-radius: 50%;
   background: #0078d4; cursor: pointer;
-  box-shadow: 0 0 0 2px #fff, 0 0 0 3px #0078d4;
+  box-shadow: 0 0 0 2px var(--card), 0 0 0 3px #0078d4;
 }
 
 /* ── Text input ── */
 .text-input {
-  border: 1px solid #c8c8c8; border-radius: 6px;
+  border: 1px solid var(--input-bd); border-radius: 6px;
   padding: 7px 10px; font-size: 12.5px;
   font-family: 'Segoe UI VF', system-ui, sans-serif;
-  color: #111; outline: none; width: 240px; flex-shrink: 0;
-  transition: border-color 0.1s;
+  color: var(--text); background: var(--input-bg);
+  outline: none; flex: 1; transition: border-color 0.1s, background 0.2s;
 }
-.text-input:focus { border-color: #0078d4; box-shadow: 0 0 0 2px rgba(0,120,212,0.15); }
+.text-input:focus { border-color: #0078d4; box-shadow: 0 0 0 2px rgba(0,120,212,0.2); }
 
 /* ── Button ── */
 .btn {
-  padding: 6px 18px; border-radius: 4px;
-  font-size: 12.5px; font-family: 'Segoe UI VF', system-ui, sans-serif;
-  border: 1px solid #c8c8c8; background: #fff; color: #111;
+  padding: 6px 18px; border-radius: 4px; font-size: 12.5px;
+  font-family: 'Segoe UI VF', system-ui, sans-serif;
+  border: 1px solid var(--btn-bd); background: var(--btn-bg); color: var(--text);
   cursor: pointer; transition: background 0.1s; flex-shrink: 0;
 }
-.btn:hover { background: #f0f0f0; }
+.btn:hover { background: var(--btn-hover); }
 .btn.primary { background: #0078d4; color: #fff; border-color: #0078d4; }
 .btn.primary:hover { background: #106ebe; }
 
-/* ── Color swatches ── */
-.swatch-row { display: flex; gap: 8px; flex-wrap: wrap; }
+/* ── Accent color swatches ── */
+.swatch-grid { display: flex; flex-wrap: wrap; gap: 10px; padding: 4px 0; }
 .swatch {
-  width: 32px; height: 32px; border-radius: 50%;
-  cursor: pointer; border: 2px solid transparent;
-  transition: border-color 0.1s, transform 0.1s;
-  flex-shrink: 0;
+  width: 36px; height: 36px; border-radius: 50%;
+  cursor: pointer; border: 3px solid transparent;
+  transition: border-color 0.12s, transform 0.12s, box-shadow 0.12s;
+  flex-shrink: 0; position: relative;
 }
-.swatch:hover { transform: scale(1.1); }
-.swatch.selected { border-color: #0078d4; }
+.swatch:hover { transform: scale(1.12); }
+.swatch.selected {
+  border-color: #0078d4;
+  box-shadow: 0 0 0 2px var(--card), 0 0 0 4px #0078d4;
+}
 
 /* ── Background preview ── */
 .bg-preview {
-  width: 100%; height: 100px; border-radius: 6px;
+  width: 100%; height: 110px; border-radius: 6px;
   background: center/cover no-repeat #2a2a3a;
-  margin-bottom: 10px; border: 1px solid #e0e0e0;
+  border: 1px solid var(--border); transition: border-color 0.2s;
 }
 
-/* ── Status bar ── */
+/* ── Theme mode pills ── */
+.mode-row { display: flex; gap: 10px; }
+.mode-pill {
+  flex: 1; padding: 14px 10px; border-radius: 8px;
+  border: 2px solid var(--border); background: var(--card);
+  cursor: pointer; text-align: center; transition: border-color 0.1s, background 0.1s;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.mode-pill:hover { border-color: #0078d4; }
+.mode-pill.selected { border-color: #0078d4; background: rgba(0,120,212,0.08); }
+.mode-pill-ico {
+  font-family: 'Segoe Fluent Icons', sans-serif;
+  font-size: 26px; line-height: 1;
+}
+.mode-pill-label { font-size: 12px; color: var(--text); font-weight: 500; }
+
+/* ── Status toast ── */
 #status-bar {
   position: fixed; bottom: 0; left: 0; right: 0;
-  height: 28px; background: #0078d4;
+  height: 30px; background: #0078d4;
   display: flex; align-items: center; padding: 0 16px;
-  font-size: 11.5px; color: rgba(255,255,255,0.9);
-  transform: translateY(100%); transition: transform 0.2s;
+  font-size: 12px; color: #fff;
+  transform: translateY(100%); transition: transform 0.18s;
 }
 #status-bar.show { transform: translateY(0); }
 </style>
@@ -213,14 +235,13 @@ input[type=range]::-webkit-slider-thumb {
 <body>
 
 <div class="layout">
-  <!-- Sidebar -->
   <nav class="sidebar">
     <div class="sidebar-header">Settings</div>
-    <div class="nav-item active" data-page="personalisation">
-      <span class="nav-icon">&#xE771;</span> Personalisation
+    <div class="nav-item active" data-page="personalization">
+      <span class="nav-icon">&#xE771;</span> Personalization
     </div>
     <div class="nav-item" data-page="taskbar">
-      <span class="nav-icon">&#xE7FC;</span> Taskbar
+      <span class="nav-icon">&#xEA37;</span> Taskbar
     </div>
     <div class="nav-item" data-page="clock">
       <span class="nav-icon">&#xE916;</span> Clock
@@ -230,44 +251,60 @@ input[type=range]::-webkit-slider-thumb {
     </div>
   </nav>
 
-  <!-- Content -->
   <main class="content">
 
-    <!-- Personalisation -->
-    <div class="page active" id="page-personalisation">
-      <div class="page-title">Personalisation</div>
+    <!-- Personalization -->
+    <div class="page active" id="page-personalization">
+      <div class="page-title">Personalization</div>
+
+      <div class="group">
+        <div class="group-title">Color Mode</div>
+        <div class="card">
+          <div class="row" style="flex-direction:column; align-items:flex-start; gap:12px; padding-bottom:16px;">
+            <div class="mode-row" style="width:100%;">
+              <div class="mode-pill selected" id="mode-light">
+                <span class="mode-pill-ico" style="color:#f5a623;">&#xE706;</span>
+                <span class="mode-pill-label">Light</span>
+              </div>
+              <div class="mode-pill" id="mode-dark">
+                <span class="mode-pill-ico" style="color:#60cdff;">&#xE708;</span>
+                <span class="mode-pill-label">Dark</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="group">
         <div class="group-title">Background</div>
         <div class="card">
-          <div class="row" style="flex-direction:column; align-items:flex-start; gap:10px;">
+          <div class="row" style="flex-direction:column; align-items:flex-start; gap:10px; padding-bottom:14px;">
             <div class="bg-preview" id="bg-preview"></div>
             <div style="display:flex;gap:8px;align-items:center;width:100%;">
-              <input class="text-input" id="bg-url" type="text" placeholder="Paste image URL…" style="flex:1;width:auto;">
+              <input class="text-input" id="bg-url" type="text" placeholder="Paste image URL...">
               <button class="btn primary" id="bg-apply">Apply</button>
             </div>
           </div>
           <div class="row">
             <span class="row-ico">&#xE91B;</span>
             <div class="row-info">
-              <div class="row-label">Solid colour fallback</div>
-              <div class="row-desc">Used when image URL is empty or fails to load</div>
+              <div class="row-label">Clear background image</div>
+              <div class="row-desc">Resets to the default Windows 11 wallpaper</div>
             </div>
-            <button class="btn" id="bg-clear">Clear image</button>
+            <button class="btn" id="bg-clear">Reset</button>
           </div>
         </div>
       </div>
 
       <div class="group">
-        <div class="group-title">Accent colour</div>
+        <div class="group-title">Accent Color</div>
         <div class="card">
-          <div class="row">
-            <span class="row-ico">&#xE790;</span>
+          <div class="row" style="flex-direction:column; align-items:flex-start; gap:12px; padding-bottom:16px;">
             <div class="row-info">
-              <div class="row-label">Taskbar accent</div>
-              <div class="row-desc">Base colour mixed into the taskbar glass</div>
+              <div class="row-label">Taskbar tint color</div>
+              <div class="row-desc">Choose the color that tints the taskbar glass effect</div>
             </div>
-            <div class="swatch-row" id="accent-swatches"></div>
+            <div class="swatch-grid" id="accent-swatches"></div>
           </div>
         </div>
       </div>
@@ -294,8 +331,8 @@ input[type=range]::-webkit-slider-thumb {
           <div class="row">
             <span class="row-ico">&#xE81E;</span>
             <div class="row-info">
-              <div class="row-label">Blur</div>
-              <div class="row-desc">Backdrop blur strength behind the taskbar</div>
+              <div class="row-label">Blur strength</div>
+              <div class="row-desc">Backdrop blur amount behind the taskbar</div>
             </div>
             <div class="slider-wrap">
               <input type="range" id="tb-blur" min="0" max="80" value="40">
@@ -306,13 +343,13 @@ input[type=range]::-webkit-slider-thumb {
       </div>
 
       <div class="group">
-        <div class="group-title">Behaviour</div>
+        <div class="group-title">Behavior</div>
         <div class="card">
           <div class="row">
             <span class="row-ico">&#xE7C9;</span>
             <div class="row-info">
               <div class="row-label">Snap flyout</div>
-              <div class="row-desc">Show snap layout options when hovering the maximise button</div>
+              <div class="row-desc">Show snap layout options when hovering the maximize button</div>
             </div>
             <button class="toggle on" id="tog-snap"></button>
           </div>
@@ -348,7 +385,7 @@ input[type=range]::-webkit-slider-thumb {
             <span class="row-ico">&#xE945;</span>
             <div class="row-info">
               <div class="row-label">Animations</div>
-              <div class="row-desc">Window open, close, minimise and snap animations</div>
+              <div class="row-desc">Window open, close, minimize, and snap animations</div>
             </div>
             <button class="toggle on" id="tog-animations"></button>
           </div>
@@ -359,27 +396,23 @@ input[type=range]::-webkit-slider-thumb {
   </main>
 </div>
 
-<div id="status-bar">Settings applied</div>
+<div id="status-bar">Applied</div>
 
 <script>
-// ── Accent colours ──
+// ── Accent colors — actual visible colors, not near-black ──
 const ACCENTS = [
-  { label: 'Default dark',  rgb: '20,20,30'  },
-  { label: 'Midnight blue', rgb: '12,18,36'  },
-  { label: 'Deep purple',   rgb: '28,12,40'  },
-  { label: 'Charcoal',      rgb: '28,28,28'  },
-  { label: 'Forest',        rgb: '10,26,18'  },
-  { label: 'Rust',          rgb: '36,16,10'  },
-  { label: 'Rose',          rgb: '36,12,20'  },
-  { label: 'Slate blue',    rgb: '16,22,40'  },
+  { label: 'Steel Blue',    rgb: '20,20,30',    color: '#3a5080' },
+  { label: 'Windows Blue',  rgb: '0,48,80',     color: '#0078d4' },
+  { label: 'Teal',          rgb: '0,50,50',     color: '#008b8b' },
+  { label: 'Purple',        rgb: '40,10,60',    color: '#7b2fbe' },
+  { label: 'Crimson',       rgb: '60,10,20',    color: '#c42b1c' },
+  { label: 'Orange',        rgb: '60,30,0',     color: '#e67e22' },
+  { label: 'Forest Green',  rgb: '10,40,20',    color: '#2e7d32' },
+  { label: 'Charcoal',      rgb: '30,30,30',    color: '#555'    },
+  { label: 'Rose',          rgb: '60,20,40',    color: '#c2185b' },
+  { label: 'Indigo',        rgb: '20,20,70',    color: '#3f51b5' },
 ];
 
-// Approximate visible colour from the rgb tuple (not the glass colour, the tint)
-const SWATCH_COLOURS = [
-  '#141418','#0c1224','#1c0c28','#1c1c1c','#0a1a12','#241008','#240c14','#101628'
-];
-
-let currentAccentRgb = '20,20,30';
 let selectedSwatch = 0;
 
 function buildSwatches() {
@@ -388,15 +421,14 @@ function buildSwatches() {
   ACCENTS.forEach((a, i) => {
     const s = document.createElement('div');
     s.className = 'swatch' + (i === selectedSwatch ? ' selected' : '');
-    s.style.background = SWATCH_COLOURS[i];
+    s.style.background = a.color;
     s.title = a.label;
     s.addEventListener('click', () => {
       document.querySelectorAll('.swatch').forEach(x => x.classList.remove('selected'));
       s.classList.add('selected');
       selectedSwatch = i;
-      currentAccentRgb = a.rgb;
       send('set-accent', { rgb: a.rgb });
-      flash();
+      flash('Accent color updated');
     });
     wrap.appendChild(s);
   });
@@ -408,12 +440,26 @@ function send(type, payload) {
   window.parent.postMessage({ source: '11settings', type, payload }, '*');
 }
 
-function flash() {
+function flash(msg) {
   const bar = document.getElementById('status-bar');
+  bar.textContent = msg || 'Applied';
   bar.classList.add('show');
   clearTimeout(bar._t);
   bar._t = setTimeout(() => bar.classList.remove('show'), 1800);
 }
+
+// ── Dark mode ──
+let isDark = false;
+function setMode(dark) {
+  isDark = dark;
+  document.body.classList.toggle('dark', dark);
+  document.getElementById('mode-light').classList.toggle('selected', !dark);
+  document.getElementById('mode-dark').classList.toggle('selected', dark);
+  send('set-dark-mode', { enabled: dark });
+  flash(dark ? 'Dark mode on' : 'Light mode on');
+}
+document.getElementById('mode-light').addEventListener('click', () => setMode(false));
+document.getElementById('mode-dark').addEventListener('click',  () => setMode(true));
 
 // ── Nav ──
 document.querySelectorAll('.nav-item').forEach(item => {
@@ -428,22 +474,23 @@ document.querySelectorAll('.nav-item').forEach(item => {
 // ── Background ──
 const bgPreview = document.getElementById('bg-preview');
 const bgUrlInput = document.getElementById('bg-url');
+const DEFAULT_BG = 'https://blogs.windows.com/wp-content/uploads/sites/2/2021/10/Windows-11-Bloom-Screensaver-Dark-scaled.jpg';
 
 document.getElementById('bg-apply').addEventListener('click', () => {
   const url = bgUrlInput.value.trim();
   if (!url) return;
   bgPreview.style.backgroundImage = `url('${url}')`;
   send('set-background', { url });
-  flash();
+  flash('Background updated');
 });
 bgUrlInput.addEventListener('keydown', e => {
   if (e.key === 'Enter') document.getElementById('bg-apply').click();
 });
 document.getElementById('bg-clear').addEventListener('click', () => {
-  bgUrlInput.value = '';
-  bgPreview.style.backgroundImage = 'none';
-  send('set-background', { url: '' });
-  flash();
+  bgUrlInput.value = DEFAULT_BG;
+  bgPreview.style.backgroundImage = `url('${DEFAULT_BG}')`;
+  send('set-background', { url: DEFAULT_BG });
+  flash('Background reset');
 });
 
 // ── Sliders ──
@@ -452,7 +499,6 @@ const opVal    = document.getElementById('tb-opacity-val');
 opSlider.addEventListener('input', () => {
   opVal.textContent = opSlider.value + '%';
   send('set-taskbar-opacity', { value: parseInt(opSlider.value) });
-  flash();
 });
 
 const blurSlider = document.getElementById('tb-blur');
@@ -460,7 +506,6 @@ const blurVal    = document.getElementById('tb-blur-val');
 blurSlider.addEventListener('input', () => {
   blurVal.textContent = blurSlider.value + 'px';
   send('set-taskbar-blur', { value: parseInt(blurSlider.value) });
-  flash();
 });
 
 // ── Toggles ──
@@ -468,14 +513,13 @@ function wireToggle(id, msgType, payloadKey) {
   const btn = document.getElementById(id);
   btn.addEventListener('click', () => {
     btn.classList.toggle('on');
-    const enabled = btn.classList.contains('on');
-    send(msgType, { [payloadKey]: enabled });
-    flash();
+    send(msgType, { [payloadKey]: btn.classList.contains('on') });
+    flash('Setting updated');
   });
 }
-wireToggle('tog-snap',       'set-snap-flyout', 'enabled');
+wireToggle('tog-snap',       'set-snap-flyout',   'enabled');
 wireToggle('tog-seconds',    'set-clock-seconds', 'enabled');
-wireToggle('tog-animations', 'set-animations', 'enabled');
+wireToggle('tog-animations', 'set-animations',    'enabled');
 
 // ── Receive initial state from parent ──
 window.addEventListener('message', e => {
@@ -483,35 +527,33 @@ window.addEventListener('message', e => {
   const s = e.data.settings;
   if (!s) return;
 
-  // Background
   if (s.bgUrl) {
     bgUrlInput.value = s.bgUrl;
     bgPreview.style.backgroundImage = `url('${s.bgUrl}')`;
   }
-
-  // Sliders
   opSlider.value = s.tbOpacity ?? 72;
   opVal.textContent = opSlider.value + '%';
   blurSlider.value = s.tbBlur ?? 40;
   blurVal.textContent = blurSlider.value + 'px';
 
-  // Toggles
   document.getElementById('tog-snap').classList.toggle('on', s.snapFlyout !== false);
   document.getElementById('tog-seconds').classList.toggle('on', !!s.clockSeconds);
   document.getElementById('tog-animations').classList.toggle('on', s.animations !== false);
 
-  // Accent — find matching swatch
+  if (s.darkMode !== undefined) {
+    isDark = s.darkMode;
+    document.body.classList.toggle('dark', isDark);
+    document.getElementById('mode-light').classList.toggle('selected', !isDark);
+    document.getElementById('mode-dark').classList.toggle('selected', isDark);
+  }
+
   if (s.tbAccentRgb) {
     const idx = ACCENTS.findIndex(a => a.rgb === s.tbAccentRgb);
-    if (idx >= 0) {
-      selectedSwatch = idx;
-      currentAccentRgb = s.tbAccentRgb;
-      buildSwatches();
-    }
+    if (idx >= 0) { selectedSwatch = idx; buildSwatches(); }
   }
 });
 
-// Tell the parent we're ready so it sends current settings
+// Announce ready so parent sends current state
 window.parent.postMessage({ source: '11settings', type: 'ready' }, '*');
 </script>
 </body>
